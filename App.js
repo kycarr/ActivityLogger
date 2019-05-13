@@ -13,30 +13,49 @@ export default class App extends React.Component {
 
     startTime: '',
     endTime: '',
-    elapsedTime: '00:00:00:000',
+    elapsedTime: '',
     didStart: false,
+    didReset: false,
   };
 
   onActivityChosen = (type) => {
     const name = type === 'other' ? '' : type
+    this.onResetTimer()
     this.setState({
       activityType: type,
       activityName: name
     })
   }
 
-  onTimer = () => {
+  onActivityName = (name) => {
+    this.onResetTimer()
+    this.setState({ activityName: name })
+  }
+
+  onToggleTimer = () => {
     if (!this.state.didStart) {
-      this.setState({ startTime: new Date().toDateString() })
+      this.setState({ startTime: new Date().toLocaleString() })
     }
     else {
-      this.setState({ endTime: new Date().toDateString() })
+      this.setState({ endTime: new Date().toLocaleString() })
     }
-    this.setState({ didStart: !this.state.didStart})
+    this.setState({ didStart: !this.state.didStart, didReset: false })
+  }
+
+  onResetTimer = () => {
+    this.setState({
+      startTime: '',
+      endTime: '',
+      didStart: false,
+      didReset: true,
+    });
   }
 
   getTime = (time) => {
     this.currentTime = time;
+    if (this.state.elapsedTime !== time) {
+      this.setState({ elapsedTime: time })
+    }
   };
 
   userID() {
@@ -46,14 +65,14 @@ export default class App extends React.Component {
           style={{ flex: 1 }}
           label='User ID'
           value={this.state.userID}
-          disabled={this.state.isUserLocked}
+          disabled={this.state.isUserLocked || this.state.didStart}
           onChangeText={text => this.setState({ userID: text })}
         />
         <Icon
           reverse
           color='#f50'
           type='font-awesome'
-          name={this.state.isUserLocked ? 'lock' : 'unlock'}
+          name={this.state.isUserLocked || this.state.didStart ? 'lock' : 'unlock'}
           onPress={() => this.setState({ isUserLocked: !this.state.isUserLocked })} />
       </View>
     )
@@ -66,19 +85,20 @@ export default class App extends React.Component {
           <Text>Activity:</Text>
           <Picker
             style={{ flex: 1 }}
+            enabled={!this.state.didStart}
             selectedValue={this.state.activityType}
             onValueChange={(itemValue, itemIndex) => this.onActivityChosen(itemValue)} >
             <Picker.Item label="Other" value="other" />
             <Picker.Item label="Test" value="test" />
           </Picker>
         </View>
-        {this.state.activityType === 'other' ?
+        {this.state.activityType !== 'other' ? undefined :
           <TextInput
             label='Other activity'
             value={this.state.activityName}
-            onChangeText={text => this.setState({ activityName: text })}
-          />
-          : undefined}
+            disabled={this.state.didStart}
+            onChangeText={text => this.onActivityName(text)}
+          />}
       </View>
     )
   }
@@ -89,16 +109,16 @@ export default class App extends React.Component {
         <Text>Start Time: {this.state.startTime}</Text>
         <Text>End Time: {this.state.endTime}</Text>
         <Stopwatch
-          laps
-          msecs
           start={this.state.didStart}
+          reset={this.state.didReset}
           getTime={this.getTime} />
-        <Button mode="contained" onPress={() => this.onTimer()}>
+        <Button mode="contained" onPress={() => this.onToggleTimer()}>
           {this.state.didStart ? 'STOP' : 'START'}
         </Button>
-        <Button mode="contained" onPress={() => this.onTimer()}>
-          RESET
-        </Button>
+        {this.state.didStart ? undefined :
+          <Button mode="contained" onPress={() => this.onResetTimer()}>
+            RESET
+          </Button>}
       </View>
     )
   }
