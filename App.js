@@ -112,13 +112,20 @@ export default class App extends React.Component {
           start={this.state.didStart}
           reset={this.state.didReset}
           getTime={this.getTime} />
-        <Button mode="contained" onPress={() => this.onToggleTimer()}>
-          {this.state.didStart ? 'STOP' : 'START'}
-        </Button>
-        {this.state.didStart ? undefined :
+
+        {this.state.endTime !== '' ? undefined :
+          <Button
+            mode="contained"
+            disabled={this.state.userID === '' || this.state.activityName === ''}
+            onPress={() => this.onToggleTimer()}
+          >
+            {this.state.didStart ? 'STOP' : 'START'}
+          </Button>}
+
+        {!this.state.didStart && this.state.startTime !== '' ?
           <Button mode="contained" onPress={() => this.onResetTimer()}>
             RESET
-          </Button>}
+          </Button> : undefined}
       </View>
     )
   }
