@@ -4,6 +4,10 @@ import { Icon, Text } from 'react-native-elements'
 import { Appbar, Button, Divider, TextInput } from 'react-native-paper';
 import { Stopwatch } from 'react-native-stopwatch-timer'
 
+import AccelerometerSensor from './containers/AccelerometerSensor'
+import GyroscopeSensor from './containers/GyroscopeSensor'
+import MagnetometerSensor from './containers/MagnetometerSensor'
+
 export default class App extends React.Component {
   state = {
     userID: '',
@@ -34,10 +38,10 @@ export default class App extends React.Component {
 
   onToggleTimer = () => {
     if (!this.state.didStart) {
-      this.setState({ startTime: new Date().toLocaleString() })
+      this.setState({ startTime: new Date().toISOString() })
     }
     else {
-      this.setState({ endTime: new Date().toLocaleString() })
+      this.setState({ endTime: new Date().toISOString() })
     }
     this.setState({ didStart: !this.state.didStart, didReset: false })
   }
@@ -121,11 +125,24 @@ export default class App extends React.Component {
           >
             {this.state.didStart ? 'STOP' : 'START'}
           </Button>}
-
         {!this.state.didStart && this.state.startTime !== '' ?
           <Button mode="contained" onPress={() => this.onResetTimer()}>
             RESET
           </Button> : undefined}
+      </View>
+    )
+  }
+
+  sensors() {
+    if (!this.state.didStart) {
+      return <></>
+    }
+
+    return (
+      <View>
+        <AccelerometerSensor />
+        <GyroscopeSensor />
+        <MagnetometerSensor />
       </View>
     )
   }
@@ -142,6 +159,8 @@ export default class App extends React.Component {
         {this.activity()}
         <Divider />
         {this.logger()}
+        <Divider />
+        {this.sensors()}
 
       </View>
     );

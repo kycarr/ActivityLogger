@@ -1,4 +1,7 @@
 {
+  "name": "ActivityLogger",
+  "displayName": "ActivityLogger",
+
   "expo": {
     "name": "ActivityLogger",
     "slug": "ActivityLogger",
