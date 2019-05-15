@@ -12,6 +12,7 @@ export default class GyroscopeSensor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isAvailable: false,
             gyroscopeData: {},
         };
     }
@@ -41,6 +42,14 @@ export default class GyroscopeSensor extends React.Component {
         this._subscription = Gyroscope.addListener(
             gyroscopeData => { this.setState({ gyroscopeData }); }
         );
+
+        Gyroscope.isAvailableAsync().then(
+            result => {
+                this.setState({
+                    isAvailable: result
+                });
+            }
+        );
     };
 
     _unsubscribe = () => {
@@ -50,6 +59,14 @@ export default class GyroscopeSensor extends React.Component {
 
     render() {
         let { x, y, z, } = this.state.gyroscopeData;
+
+        if (!this.state.isAvailable) {
+            return (
+                <Text>
+                    Gyroscope is unavailable
+                </Text>
+            )
+        }
 
         return (
             <Text>

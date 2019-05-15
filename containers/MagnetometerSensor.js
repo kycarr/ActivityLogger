@@ -8,10 +8,11 @@ import { UPDATE_INTERVAL, round } from '../constants/index'
  * Access the device magnetometer sensor(s) to respond to measure the changes in the magnetic field.
  */
 export default class MagnetometerSensor extends React.Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
+            isAvailable: false,
             magnetometerData: {},
         };
     }
@@ -41,6 +42,14 @@ export default class MagnetometerSensor extends React.Component {
         this._subscription = Magnetometer.addListener(
             magnetometerData => { this.setState({ magnetometerData }); }
         );
+
+        Magnetometer.isAvailableAsync().then(
+            result => {
+                this.setState({
+                    isAvailable: result
+                });
+            }
+        );
     };
 
     _unsubscribe = () => {
@@ -50,6 +59,14 @@ export default class MagnetometerSensor extends React.Component {
 
     render() {
         let { x, y, z, } = this.state.magnetometerData;
+
+        if (!this.state.isAvailable) {
+            return (
+                <Text>
+                    Magnetometer is unavailable
+                </Text>
+            )
+        }
 
         return (
             <Text>

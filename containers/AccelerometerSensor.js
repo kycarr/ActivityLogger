@@ -12,6 +12,7 @@ export default class AccelerometerSensor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isAvailable: false,
             accelerometerData: {},
         };
     }
@@ -41,6 +42,14 @@ export default class AccelerometerSensor extends React.Component {
         this._subscription = Accelerometer.addListener(
             accelerometerData => { this.setState({ accelerometerData }); }
         );
+
+        Accelerometer.isAvailableAsync().then(
+            result => {
+                this.setState({
+                    isAvailable: result
+                });
+            }
+        );
     };
 
     _unsubscribe = () => {
@@ -50,6 +59,14 @@ export default class AccelerometerSensor extends React.Component {
 
     render() {
         let { x, y, z, } = this.state.accelerometerData;
+
+        if (!this.state.isAvailable) {
+            return (
+                <Text>
+                    Accelerometer is unavailable
+                </Text>
+            )
+        }
 
         return (
             <Text>
