@@ -12,7 +12,6 @@ export default class MagnetometerSensor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isAvailable: false,
             magnetometerData: {},
         };
     }
@@ -38,17 +37,9 @@ export default class MagnetometerSensor extends React.Component {
         }
     };
 
-    _subscribe = () => {
+    _subscribe = async () => {
         this._subscription = Magnetometer.addListener(
             magnetometerData => { this.setState({ magnetometerData }); }
-        );
-
-        Magnetometer.isAvailableAsync().then(
-            result => {
-                this.setState({
-                    isAvailable: result
-                });
-            }
         );
     };
 
@@ -59,14 +50,6 @@ export default class MagnetometerSensor extends React.Component {
 
     render() {
         let { x, y, z, } = this.state.magnetometerData;
-
-        if (!this.state.isAvailable) {
-            return (
-                <Text>
-                    Magnetometer is unavailable
-                </Text>
-            )
-        }
 
         return (
             <Text>

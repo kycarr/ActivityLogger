@@ -8,11 +8,10 @@ import { UPDATE_INTERVAL, round } from '../constants/index'
  * Access the device accelerometer sensor(s) to respond to changes in acceleration in 3d space.
  */
 export default class AccelerometerSensor extends React.Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
-            isAvailable: false,
             accelerometerData: {},
         };
     }
@@ -38,17 +37,9 @@ export default class AccelerometerSensor extends React.Component {
         }
     };
 
-    _subscribe = () => {
+    _subscribe = async () => {
         this._subscription = Accelerometer.addListener(
             accelerometerData => { this.setState({ accelerometerData }); }
-        );
-
-        Accelerometer.isAvailableAsync().then(
-            result => {
-                this.setState({
-                    isAvailable: result
-                });
-            }
         );
     };
 
@@ -59,14 +50,6 @@ export default class AccelerometerSensor extends React.Component {
 
     render() {
         let { x, y, z, } = this.state.accelerometerData;
-
-        if (!this.state.isAvailable) {
-            return (
-                <Text>
-                    Accelerometer is unavailable
-                </Text>
-            )
-        }
 
         return (
             <Text>

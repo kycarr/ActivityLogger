@@ -7,12 +7,15 @@ import { Stopwatch } from 'react-native-stopwatch-timer'
 import AccelerometerSensor from './containers/AccelerometerSensor'
 import GyroscopeSensor from './containers/GyroscopeSensor'
 import MagnetometerSensor from './containers/MagnetometerSensor'
+import PedometerSensor from './containers/PedometerSensor'
+import BrightnessSensor from './containers/BrightnessSensor'
+import LocationSensor from './containers/LocationSensor'
 
 export default class App extends React.Component {
   state = {
     userID: '',
-    activityType: 'other',
-    activityName: '',
+    activityType: 'test',
+    activityName: 'test',
     isUserLocked: false,
 
     startTime: '',
@@ -92,8 +95,8 @@ export default class App extends React.Component {
             enabled={!this.state.didStart}
             selectedValue={this.state.activityType}
             onValueChange={(itemValue, itemIndex) => this.onActivityChosen(itemValue)} >
-            <Picker.Item label="Other" value="other" />
             <Picker.Item label="Test" value="test" />
+            <Picker.Item label="Other" value="other" />
           </Picker>
         </View>
         {this.state.activityType !== 'other' ? undefined :
@@ -143,6 +146,9 @@ export default class App extends React.Component {
         <AccelerometerSensor />
         <GyroscopeSensor />
         <MagnetometerSensor />
+        <PedometerSensor />
+        <BrightnessSensor />
+        <LocationSensor />
       </View>
     )
   }

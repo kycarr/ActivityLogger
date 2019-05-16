@@ -1,15 +1,13 @@
-import Expo from "expo";
 import React from "react";
 import { Pedometer } from "expo";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 
 export default class PedometerSensor extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            isAvailable: "checking",
-            currentStepCount: 0
+            steps: 0
         };
     }
 
@@ -21,20 +19,12 @@ export default class PedometerSensor extends React.Component {
         this._unsubscribe();
     }
 
-    _subscribe = () => {
+    _subscribe = async () => {
         this._subscription = Pedometer.watchStepCount(result => {
             this.setState({
                 currentStepCount: result.steps
             });
         });
-
-        Pedometer.isAvailableAsync().then(
-            result => {
-                this.setState({
-                    isAvailable: result
-                });
-            },
-        );
     };
 
     _unsubscribe = () => {
@@ -43,18 +33,8 @@ export default class PedometerSensor extends React.Component {
     };
 
     render() {
-        if (!this.state.isAvailable) {
-            return (
-                <Text>
-                    Pedometer is unavailable
-                </Text>
-            )
-        }
-
         return (
-            <Text>Pedometer: steps={this.state.currentStepCount}</Text>
+            <Text>Pedometer: steps={this.state.steps}</Text>
         );
     }
 }
-
-Expo.registerRootComponent(PedometerSensor);
