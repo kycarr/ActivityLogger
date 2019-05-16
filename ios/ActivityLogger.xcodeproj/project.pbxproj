@@ -39,6 +39,7 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		74FBF273DB3C45468308B514 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDAF8058BF1442A6B9D50DAF /* libRNFS.a */; };
 		86C3F62655C6402C8286F09E /* libRNSensors.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C03A904F668A4488A407073D /* libRNSensors.a */; };
+		DF385FE90D8D4EFEA5EA1333 /* libRNFileSystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA51F4542DF846EE84F969BD /* libRNFileSystem.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -348,6 +349,8 @@
 		EDAF8058BF1442A6B9D50DAF /* libRNFS.a */ = {isa = PBXFileReference; name = "libRNFS.a"; path = "libRNFS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		E0CEBB23B380442CB485B580 /* RNSensors.xcodeproj */ = {isa = PBXFileReference; name = "RNSensors.xcodeproj"; path = "../node_modules/react-native-sensors/ios/RNSensors.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		C03A904F668A4488A407073D /* libRNSensors.a */ = {isa = PBXFileReference; name = "libRNSensors.a"; path = "libRNSensors.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		A0CD2F15402D4D348518AE09 /* RNFileSystem.xcodeproj */ = {isa = PBXFileReference; name = "RNFileSystem.xcodeproj"; path = "../node_modules/react-native-filesystem/ios/RNFileSystem.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		CA51F4542DF846EE84F969BD /* libRNFileSystem.a */ = {isa = PBXFileReference; name = "libRNFileSystem.a"; path = "libRNFileSystem.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -377,6 +380,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				74FBF273DB3C45468308B514 /* libRNFS.a in Frameworks */,
 				86C3F62655C6402C8286F09E /* libRNSensors.a in Frameworks */,
+				DF385FE90D8D4EFEA5EA1333 /* libRNFileSystem.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,6 +569,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				87CF70EF3D794787A0E5978F /* RNFS.xcodeproj */,
 				E0CEBB23B380442CB485B580 /* RNSensors.xcodeproj */,
+				A0CD2F15402D4D348518AE09 /* RNFileSystem.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1194,11 +1199,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
 				);
 			};
 			name = Debug;
@@ -1222,11 +1229,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
 				);
 			};
 			name = Release;
@@ -1251,6 +1260,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
 				);
 			};
 			name = Debug;
@@ -1274,6 +1284,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
 				);
 			};
 			name = Release;
@@ -1305,11 +1316,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
 				);
 			};
 			name = Debug;
@@ -1341,11 +1354,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
 				);
 			};
 			name = Release;
@@ -1376,11 +1391,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
 				);
 			};
 			name = Debug;
@@ -1411,11 +1428,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
 				);
 			};
 			name = Release;

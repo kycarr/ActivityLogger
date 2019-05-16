@@ -1,7 +1,6 @@
 {
   "name": "ActivityLogger",
   "displayName": "ActivityLogger",
-
   "expo": {
     "name": "ActivityLogger",
     "slug": "ActivityLogger",
@@ -27,6 +26,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }

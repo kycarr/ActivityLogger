@@ -12,7 +12,7 @@ export default class BrightnessSensor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            interval: null,
+            subscription: null,
             brightness: 0,
         };
     }
@@ -30,17 +30,16 @@ export default class BrightnessSensor extends React.Component {
     }
 
     _subscribe = async () => {
-        const interval = setInterval(this.getBrightness, UPDATE_INTERVAL);
-        this.setState({ interval: interval })
+        const subscription = setInterval(this.getBrightness, UPDATE_INTERVAL);
+        this.setState({ subscription: subscription })
     };
 
     _unsubscribe = () => {
-        clearInterval(this.state.interval)
+        clearInterval(this.state.subscription)
     };
 
     getBrightness = async () => {
-        const { status } = await Permissions.getAsync(Permissions.SYSTEM_BRIGHTNESS);
-
+        let { status } = await Permissions.askAsync(Permissions.SYSTEM_BRIGHTNESS);
         if (status === 'granted') {
             const brightness = await Brightness.getBrightnessAsync()
             this.setState({ brightness: brightness })
