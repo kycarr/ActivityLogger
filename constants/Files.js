@@ -1,37 +1,23 @@
-import FileSystem from 'react-native-filesystem';
 
-const APP_DIRECTORY = 'activity-logger'
-const USER_DIRECTORY = 'users'
-const ACTIVITY_DIRECTORY = 'activities'
-const LOG_DIRECTORY = 'logs'
+export const APP_DIRECTORY = 'activity-logger'
 
+export const writeLog = async (id, activity, session, content) => {
+    const RNFS = require('react-native-fs');
+    console.log(RNFS)
 
-export const saveFile = async (path, content, unique = false) => {
-    if (!await fileExists(path)) {
-        await FileSystem.writeToFile(path, content);
-        return
-    }
+    // const path = `${RNFS.DocumentDirectoryPath}/${APP_DIRECTORY}/${id}/${activity}/${session}/file.txt`
 
-    if (unique) {
-        const file = await loadFile(path)
-        if (content in file) {
-            return
-        }
-    }
-    
-    content = content + `\n${content}`
-    await FileSystem.writeToFile(path, content);
+    // RNFS.writeFile(path, content, 'utf8')
+    //     .then((success) => {
+    //         console.log('FILE WRITTEN!');
+    //         console.log(content);
+    //     })
+    //     .catch((err) => {
+    //         console.log(err.message);
+    //     });
 }
 
-export const loadFile = async (path) => {
-    const fileContents = await FileSystem.readFile(path);
-    console.log(`read from file: ${fileContents}`);
-    return fileContents
-}
-
-export const fileExists = async (path) => {
-    const fileExists = await FileSystem.fileExists(path);
-    console.log(`file exists: ${fileExists}`);
-
-    return fileExists
+export const loadLog = async (id, activity, session) => {
+    const path = `${RNFS.DocumentDirectoryPath}/${APP_DIRECTORY}/${id}/${activity}/${session}/file.txt`
+    return await RNFS.readFile(path, 'utf8')
 }

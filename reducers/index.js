@@ -18,11 +18,10 @@ const initialState = {
     users: [],
     activities: [],
     logs: {},
+    data: {},
 };
 
 const rootReducer = (state = initialState, action) => {
-    console.log(state)
-
     switch (action.type) {
         case SET_USER:
             return {
@@ -50,24 +49,44 @@ const rootReducer = (state = initialState, action) => {
                 startTime: action.data,
                 endTime: '',
                 isRecording: true,
-                logs: {}
+                data: {},
+                logs: {
+                    'userID': state.user,
+                    'activity': state.activity,
+                    'startTime': action.data,
+                    'endTime': '',
+                    'data': {},
+                },
             }
         case SET_END:
             return {
                 ...state,
                 endTime: action.data,
-                isRecording: false
+                isRecording: false,
+                logs: {
+                    ...state.logs,
+                    'endTime': action.data,
+                    'data': state.data
+                }
             }
         case ADD_LOG:
-            var logs = state.logs[action.key]
-
-            console.log(logs)
+            var data = [action.data]
+            if (action.key in state.data) {
+                data = [...state.data[action.key], action.data]
+            }
 
             return {
                 ...state,
+                data: {
+                    ...state.data,
+                    [action.key]: data
+                },
                 logs: {
                     ...state.logs,
-                    [action.key]: [...state.logs[action.key], action.data]
+                    'data': {
+                        ...state.data,
+                        [action.key]: data
+                    }
                 }
             }
         default:

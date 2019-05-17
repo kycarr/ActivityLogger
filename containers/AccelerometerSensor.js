@@ -14,7 +14,7 @@ class AccelerometerSensor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            accelerometerData: {},
+            data: {},
         };
     }
 
@@ -27,9 +27,9 @@ class AccelerometerSensor extends React.Component {
         this._unsubscribe();
     }
 
-    update = (accelerometerData) => {
-        this.props.dispatch(addLog('accelerometer', accelerometerData))
-        this.setState({ accelerometerData });
+    update = (data) => {
+        this.props.dispatch(addLog('accelerometer', data))
+        this.setState({ data });
     }
 
     _toggle = () => {
@@ -42,7 +42,7 @@ class AccelerometerSensor extends React.Component {
 
     _subscribe = async () => {
         this._subscription = Accelerometer.addListener(
-            accelerometerData => { this.update(accelerometerData) }
+            data => { this.update(data) }
         );
     };
 
@@ -52,7 +52,7 @@ class AccelerometerSensor extends React.Component {
     };
 
     render() {
-        let { x, y, z, } = this.state.accelerometerData;
+        let { x, y, z, } = this.state.data;
 
         return (
             <Text>
@@ -64,7 +64,7 @@ class AccelerometerSensor extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        accelerometerData: state.logs['accelerometer']
+        data: state.logs['accelerometer']
     };
 };
 

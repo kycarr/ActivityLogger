@@ -3,7 +3,7 @@ import {
     loadUsers,
     storeActivity,
     loadActivities
-} from '../constants/Storage'
+} from './storage'
 
 export const SET_USER = "SET_USER"
 export const SET_ACTIVITY = "SET_ACTIVITY"

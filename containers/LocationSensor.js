@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Platform, Text } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
+import { connect } from 'react-redux';
 
-export default class LocationSensor extends Component {
+import { UPDATE_INTERVAL } from '../constants/index'
+import { addLog } from '../constants/actions'
+
+class LocationSensor extends Component {
     state = {
-        interval: null,
-        location: null,
         isAvailable: false,
+        interval: null,
+        data: null,
     };
 
     componentWillMount() {
@@ -32,8 +36,9 @@ export default class LocationSensor extends Component {
             this.setState({ isAvailable: false });
         }
 
-        let location = await Location.getCurrentPositionAsync({});
-        this.setState({ location, isAvailable: true });
+        let data = await Location.getCurrentPositionAsync({});
+        this.props.dispatch(addLog('location', data))
+        this.setState({ data, isAvailable: true });
     };
 
     render() {
@@ -45,8 +50,16 @@ export default class LocationSensor extends Component {
 
         return (
             <Text>
-                Location: {JSON.stringify(this.state.location)}
+                Location: {JSON.stringify(this.state.data)}
             </Text>
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        data: state.logs['location']
+    };
+};
+
+export default connect(mapStateToProps)(LocationSensor);

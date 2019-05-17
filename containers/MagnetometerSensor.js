@@ -1,18 +1,20 @@
 import * as React from 'react'
 import { Text } from 'react-native';
 import { Magnetometer } from 'expo';
+import { connect } from 'react-redux';
 
 import { UPDATE_INTERVAL, round } from '../constants/index'
+import { addLog } from '../constants/actions'
 
 /**
  * Access the device magnetometer sensor(s) to respond to measure the changes in the magnetic field.
  */
-export default class MagnetometerSensor extends React.Component {
+class MagnetometerSensor extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            magnetometerData: {},
+            data: {},
         };
     }
 
@@ -25,8 +27,9 @@ export default class MagnetometerSensor extends React.Component {
         this._unsubscribe();
     }
 
-    componentDidUpdate() {
-
+    update = (data) => {
+        this.props.dispatch(addLog('magnetometer', data))
+        this.setState({ data });
     }
 
     _toggle = () => {
@@ -39,7 +42,7 @@ export default class MagnetometerSensor extends React.Component {
 
     _subscribe = async () => {
         this._subscription = Magnetometer.addListener(
-            magnetometerData => { this.setState({ magnetometerData }); }
+            data => { this.update(data) }
         );
     };
 
@@ -49,7 +52,7 @@ export default class MagnetometerSensor extends React.Component {
     };
 
     render() {
-        let { x, y, z, } = this.state.magnetometerData;
+        let { x, y, z, } = this.state.data;
 
         return (
             <Text>
@@ -58,3 +61,11 @@ export default class MagnetometerSensor extends React.Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        data: state.logs['magnetometer']
+    };
+};
+
+export default connect(mapStateToProps)(MagnetometerSensor);

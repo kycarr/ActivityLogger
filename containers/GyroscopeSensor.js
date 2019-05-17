@@ -1,18 +1,20 @@
 import * as React from 'react'
 import { Text } from 'react-native';
 import { Gyroscope } from 'expo';
+import { connect } from 'react-redux';
 
 import { UPDATE_INTERVAL, round } from '../constants/index'
+import { addLog } from '../constants/actions'
 
 /**
  * Access the device gyroscope sensor to respond to changes in rotation in 3d space.
  */
-export default class GyroscopeSensor extends React.Component {
+class GyroscopeSensor extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            gyroscopeData: {},
+            data: {},
         };
     }
 
@@ -25,8 +27,9 @@ export default class GyroscopeSensor extends React.Component {
         this._unsubscribe();
     }
 
-    componentDidUpdate() {
-
+    update = (data) => {
+        this.props.dispatch(addLog('gyroscope', data))
+        this.setState({ data });
     }
 
     _toggle = () => {
@@ -39,7 +42,7 @@ export default class GyroscopeSensor extends React.Component {
 
     _subscribe = async () => {
         this._subscription = Gyroscope.addListener(
-            gyroscopeData => { this.setState({ gyroscopeData }); }
+            data => { this.update(data) }
         );
     };
 
@@ -49,7 +52,7 @@ export default class GyroscopeSensor extends React.Component {
     };
 
     render() {
-        let { x, y, z, } = this.state.gyroscopeData;
+        let { x, y, z, } = this.state.data;
 
         return (
             <Text>
@@ -58,3 +61,11 @@ export default class GyroscopeSensor extends React.Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        data: state.logs['gyroscope']
+    };
+};
+
+export default connect(mapStateToProps)(GyroscopeSensor);

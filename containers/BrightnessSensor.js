@@ -1,19 +1,20 @@
 import * as React from 'react'
 import { Text } from 'react-native';
 import { Brightness, Permissions } from 'expo';
+import { connect } from 'react-redux';
 
 import { UPDATE_INTERVAL } from '../constants/index'
+import { addLog } from '../constants/actions'
 
 /**
  * 
  */
-export default class BrightnessSensor extends React.Component {
+class BrightnessSensor extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            subscription: null,
-            brightness: 0,
+            data: 0,
         };
     }
 
@@ -25,32 +26,40 @@ export default class BrightnessSensor extends React.Component {
         this._unsubscribe();
     }
 
-    componentDidUpdate() {
-
+    update = (data) => {
+        this.props.dispatch(addLog('brightness', data))
+        this.setState({ data });
     }
 
     _subscribe = async () => {
-        const subscription = setInterval(this.getBrightness, UPDATE_INTERVAL);
-        this.setState({ subscription: subscription })
+        this.subscription = setInterval(this.getBrightness, UPDATE_INTERVAL);
     };
 
     _unsubscribe = () => {
-        clearInterval(this.state.subscription)
+        clearInterval(this.subscription)
     };
 
     getBrightness = async () => {
         let { status } = await Permissions.askAsync(Permissions.SYSTEM_BRIGHTNESS);
         if (status === 'granted') {
-            const brightness = await Brightness.getBrightnessAsync()
-            this.setState({ brightness: brightness })
+            const data = await Brightness.getBrightnessAsync()
+            this.update(data)
         }
     }
 
     render() {
         return (
             <Text>
-                Brightness: {this.state.brightness}
+                Brightness: {this.state.data}
             </Text>
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        data: state.logs['brightness']
+    };
+};
+
+export default connect(mapStateToProps)(BrightnessSensor);
