@@ -2,7 +2,7 @@ import { AsyncStorage } from "react-native"
 
 export const storeUser = async (user) => {
     const users = await loadUsers()
-    if (user in users) {
+    if (users.includes(user)) {
         return
     }
     users.push(user)
@@ -19,7 +19,7 @@ export const loadUsers = async () => {
 
 export const storeActivity = async (activity) => {
     const activities = await loadActivities()
-    if (activity in activities) {
+    if (activities.includes(activity)) {
         return
     }
     activities.push(activity)
@@ -35,13 +35,13 @@ export const loadActivities = async () => {
 }
 
 
-_storeData = async (key, data) => {
+export const _storeData = async (key, data) => {
     try {
         await AsyncStorage.setItem(key, data);
     } catch (error) { }
 }
 
-_retrieveData = async (key) => {
+export const _retrieveData = async (key) => {
     try {
         const value = await AsyncStorage.getItem(key);
         if (value !== null) {
