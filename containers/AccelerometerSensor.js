@@ -1,13 +1,15 @@
 import * as React from 'react'
 import { Text } from 'react-native';
 import { Accelerometer } from 'expo';
+import { connect } from 'react-redux';
 
 import { UPDATE_INTERVAL, round } from '../constants/index'
+import { addLog } from '../constants/actions'
 
 /**
  * Access the device accelerometer sensor(s) to respond to changes in acceleration in 3d space.
  */
-export default class AccelerometerSensor extends React.Component {
+class AccelerometerSensor extends React.Component {
 
     constructor(props) {
         super(props);
@@ -25,8 +27,9 @@ export default class AccelerometerSensor extends React.Component {
         this._unsubscribe();
     }
 
-    componentDidUpdate() {
-
+    update = (accelerometerData) => {
+        this.props.dispatch(addLog('accelerometer', accelerometerData))
+        this.setState({ accelerometerData });
     }
 
     _toggle = () => {
@@ -39,7 +42,7 @@ export default class AccelerometerSensor extends React.Component {
 
     _subscribe = async () => {
         this._subscription = Accelerometer.addListener(
-            accelerometerData => { this.setState({ accelerometerData }); }
+            accelerometerData => { this.update(accelerometerData) }
         );
     };
 
@@ -58,3 +61,11 @@ export default class AccelerometerSensor extends React.Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        accelerometerData: state.logs['accelerometer']
+    };
+};
+
+export default connect(mapStateToProps)(AccelerometerSensor);
